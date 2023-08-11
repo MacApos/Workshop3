@@ -1,4 +1,4 @@
-package pl.coderslab.entity;
+package pl.coderslab.utils;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -15,7 +15,7 @@ public class UserDao {
     private static final String DELETE_USER_QUERY = "DELETE FROM users where id = ?";
 
     public User create(User user) {
-        try (Connection connection = Dbutil.connect()) {
+        try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(CREATE_USER_QUERY,
                     Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getEmail());
@@ -52,7 +52,7 @@ public class UserDao {
     }
 
     private User getUser(String userParam, String QUERY) {
-        try (Connection connection = Dbutil.connect();
+        try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(QUERY)) {
             statement.setString(1, userParam);
             ResultSet resultSet = statement.executeQuery();
@@ -74,7 +74,7 @@ public class UserDao {
     }
 
     public void update(User user) {
-        try (Connection connection = Dbutil.connect();
+        try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_USER_QUERY)) {
             statement.setString(1, user.getEmail());
             statement.setString(2, user.getUserName());
@@ -88,7 +88,7 @@ public class UserDao {
 
 
     public User[] findAll() {
-        try (Connection connection = Dbutil.connect();
+        try (Connection connection = DbUtil.getConnection();
              PreparedStatement statementFind = connection.prepareStatement(FIND_ALL_USERS_QUERY);) {
             int userIdx = 0;
             User[] allUsers = new User[0];
@@ -112,7 +112,7 @@ public class UserDao {
     }
 
     public void delete(int userId) {
-        try (Connection connection = Dbutil.connect();
+        try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_USER_QUERY)) {
             statement.setInt(1, userId);
             statement.executeUpdate();
