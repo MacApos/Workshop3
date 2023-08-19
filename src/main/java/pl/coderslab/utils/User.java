@@ -51,7 +51,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "pl.coderslab.entity.User{" +
+        return "pl.coderslab.utils.User{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
